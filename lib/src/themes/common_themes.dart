@@ -8,9 +8,6 @@ import 'package:yaru/theme.dart';
 import '../text/text_theme.dart';
 import 'constants.dart';
 
-const kDividerColorDark = Color.fromARGB(255, 65, 65, 65);
-const kDividerColorLight = Color(0xffdcdcdc);
-
 bool get isMobile =>
     !kIsWeb && (Platform.isAndroid || Platform.isIOS || Platform.isFuchsia);
 
@@ -54,14 +51,13 @@ InputDecorationTheme _createInputDecorationTheme(ColorScheme colorScheme) {
   const width = 1.0;
   const strokeAlign = 0.0;
   final fill = colorScheme.isLight
-      ? const Color(0xFFededed)
-      : const Color.fromARGB(255, 40, 40, 40);
+      ? colorScheme.surface.scale(lightness: -0.03)
+      : colorScheme.surface.scale(saturation: -0.5);
   final border = colorScheme.isHighContrast
       ? colorScheme.outlineVariant
       : colorScheme.outline;
-  final disabledBorder = colorScheme.isLight
-      ? const Color.fromARGB(255, 237, 237, 237)
-      : const Color.fromARGB(255, 67, 67, 67);
+  final disabledBorder =
+      border.scale(lightness: colorScheme.isLight ? 0.5 : -0.03);
 
   const textStyle = TextStyle(
     fontSize: 14,
@@ -634,7 +630,7 @@ DrawerThemeData _createDrawerTheme(ColorScheme colorScheme) {
         bottomEnd: Radius.circular(kWindowRadius),
       ),
       side: BorderSide(
-        color: colorScheme.isLight ? Colors.transparent : kDividerColorDark,
+        color: colorScheme.isLight ? Colors.transparent : colorScheme.outline,
       ),
     ),
     backgroundColor: colorScheme.background,
@@ -674,7 +670,6 @@ ThemeData createYaruTheme({
   Color? dividerColor,
   Color? elevatedButtonColor,
   Color? elevatedButtonTextColor,
-  bool? useMaterial3 = true,
 }) {
   dividerColor ??= colorScheme.isHighContrast
       ? colorScheme.outlineVariant
@@ -691,13 +686,11 @@ ThemeData createYaruTheme({
         space: 1.0,
         thickness: 1.0,
       ),
-      useMaterial3: true,
       colorScheme: colorScheme,
     );
   }
 
   final themeData = ThemeData.from(
-    useMaterial3: useMaterial3,
     colorScheme: colorScheme,
   );
 
@@ -795,7 +788,6 @@ ThemeData createYaruLightTheme({
   required Color primaryColor,
   Color? elevatedButtonColor,
   Color? elevatedButtonTextColor,
-  bool? useMaterial3 = true,
 }) {
   final secondary = primaryColor.scale(lightness: 0.2).cap(saturation: .9);
   final secondaryContainer =
@@ -835,12 +827,14 @@ ThemeData createYaruLightTheme({
     outlineVariant: Colors.black,
     scrim: Colors.black,
   );
+
   return createYaruTheme(
     colorScheme: colorScheme,
-    dividerColor: colorScheme.isHighContrast ? null : kDividerColorLight,
+    dividerColor: colorScheme.isHighContrast
+        ? null
+        : colorScheme.outline.scale(lightness: 0.1),
     elevatedButtonColor: elevatedButtonColor,
     elevatedButtonTextColor: elevatedButtonTextColor,
-    useMaterial3: useMaterial3,
   );
 }
 
@@ -849,7 +843,6 @@ ThemeData createYaruDarkTheme({
   required Color primaryColor,
   Color? elevatedButtonColor,
   Color? elevatedButtonTextColor,
-  bool? useMaterial3 = true,
   bool highContrast = false,
 }) {
   final secondary = primaryColor.scale(lightness: -0.3, saturation: -0.15);
@@ -894,9 +887,10 @@ ThemeData createYaruDarkTheme({
   );
   return createYaruTheme(
     colorScheme: colorScheme,
-    dividerColor: colorScheme.isHighContrast ? null : kDividerColorDark,
+    dividerColor: colorScheme.isHighContrast
+        ? null
+        : colorScheme.outline.scale(lightness: -0.2),
     elevatedButtonColor: elevatedButtonColor,
     elevatedButtonTextColor: elevatedButtonTextColor,
-    useMaterial3: useMaterial3,
   );
 }
