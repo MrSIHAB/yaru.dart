@@ -1,5 +1,16 @@
 # Changelog
 
+## [6.0.0](https://github.com/ubuntu/yaru.dart/compare/v5.3.2...v6.0.0) (2024-11-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* unify ChipTheme and YaruChoiceChipBar and make them work with high contrast ([#955](https://github.com/ubuntu/yaru.dart/issues/955))
+
+### Features
+
+* unify ChipTheme and YaruChoiceChipBar and make them work with high contrast ([#955](https://github.com/ubuntu/yaru.dart/issues/955)) ([0365af5](https://github.com/ubuntu/yaru.dart/commit/0365af5edf4ad8477fb3dc2fca8c603e548c316f))
+
 ## [5.3.2](https://github.com/ubuntu/yaru.dart/compare/v5.3.0...v5.3.2) (2024-10-28)
 
 
